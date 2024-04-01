@@ -1,15 +1,19 @@
 import express from 'express';
-import  {diffWords } from 'diff';
+import natural from 'natural';
+
+const tokenizer = new natural.WordTokenizer();
 
 const router = express.Router();
 
 function compareTexts(quranText, userText) {
-    const differences = diffWords(quranText, userText);
+    const quranTokens = tokenizer.tokenize(quranText);
+    const userTokens = tokenizer.tokenize(userText);
+
     let result = '';
 
-    differences.forEach(part => {
-        if (part.added || part.removed) {
-            result += part.value + ' ';
+    quranTokens.forEach(quranToken => {
+        if (!userTokens.includes(quranToken)) {
+            result += quranToken + ' ';
         }
     });
 
