@@ -10,7 +10,7 @@ router.post('/process-audio', upload.single('audioFile'), async (req, res) => {
         // استخدام مسار الملف المؤقت الذي قام multer بتخزينه في جسم الطلب
         const data = fs.readFileSync(req.file.path);
         const response = await fetch(
-            "https://api-inference.huggingface.co/models/tarteel-ai/whisper-base-ar-quran",
+            "https://api-inference.huggingface.co/models/openai/whisper-large-v3",
             {
                 headers: { Authorization: "Bearer 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" },
                 method: "POST",
