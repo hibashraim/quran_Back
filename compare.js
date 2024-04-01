@@ -1,0 +1,30 @@
+import express from 'express';
+import  {diffWords } from 'diff';
+
+const router = express.Router();
+
+function compareTexts(quranText, userText) {
+    const differences = diffWords(quranText, userText);
+    let result = '';
+
+    differences.forEach(part => {
+        if (part.added || part.removed) {
+            result += part.value + ' ';
+        }
+    });
+
+    return result.trim();
+}
+
+router.post('/compare', (req, res) => {
+    try {
+        const quranText = "هُوَ اللَّهُ الَّذِي لَا إِلَٰهَ إِلَّا هُوَ ۖ الْمَلِكُ الْقُدُّوسُ السَّلَامُ الْمُؤْمِنُ الْمُهَيْمِنُ الْعَزِيزُ الْجَبَّارُ الْمُتَكَبِّرُ ۚ سُبْحَانَ اللَّهِ عَمَّا يُشْرِكُونَ";
+        const userText = req.body.text; // النص الذي تم استقباله من العميل
+        const result = compareTexts(quranText, userText);
+        res.send(result);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+export default router;
