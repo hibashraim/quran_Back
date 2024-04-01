@@ -12,8 +12,9 @@ router.post('/process-audio', upload.single('audioFile'), async (req, res) => {
         const response = await fetch(
             "https://api-inference.huggingface.co/models/openai/whisper-large-v3",
             {
-                headers: { Authorization: "Bearer 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" ,
+                headers: { Authorization: "Bearer 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" , "Content-Type": "application/json", 
                 "Accept-Language": "ar"},
+                
                 method: "POST",
                 body: data,
             }
