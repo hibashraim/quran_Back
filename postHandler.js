@@ -10,16 +10,17 @@ router.post('/process-audio', upload.single('audioFile'), async (req, res) => {
         // استخدام مسار الملف المؤقت الذي قام multer بتخزينه في جسم الطلب
         const data = fs.readFileSync(req.file.path);
         const response = await fetch(
-            "https://api-inference.huggingface.co/models/openai/whisper-large-v3",
+            "https://api-inference.huggingface.co/models/tarteel-ai/whisper-base-ar-quran",
             {
-                headers: { Authorization: "Bearer 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" , "Content-Type": "application/json", 
-                "language": "ar"},
+                headers: { Authorization: "Bearer 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" },
                 
                 method: "POST",
                 body: data,
             }
         );
         const result = await response.json();
+
+        console.log(result.text);
         res.json(result);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -27,3 +28,8 @@ router.post('/process-audio', upload.single('audioFile'), async (req, res) => {
 });
 
 export default router;
+
+
+
+// "Content-Type": "application/json", 
+//                 "language": "ar"
