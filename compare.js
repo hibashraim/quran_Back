@@ -1,7 +1,7 @@
 import express from 'express';
 import natural from 'natural';
 
-const tokenizer = new natural.WordTokenizer();
+const tokenizer = new natural.RegexpTokenizer({ pattern: /[\s\.,!?\(\)]+/ });
 
 const router = express.Router();
 
@@ -24,7 +24,9 @@ router.post('/compare', (req, res) => {
     try {
         const quranText = "هُوَ اللَّهُ الَّذِي لَا إِلَٰهَ إِلَّا هُوَ ۖ الْمَلِكُ الْقُدُّوسُ السَّلَامُ الْمُؤْمِنُ الْمُهَيْمِنُ الْعَزِيزُ الْجَبَّارُ الْمُتَكَبِّرُ ۚ سُبْحَانَ اللَّهِ عَمَّا يُشْرِكُونَ";
         const userText = req.body.text; // النص الذي تم استقباله من العميل
+   
         const result = compareTexts(quranText, userText);
+
         res.send(result);
     } catch (error) {
         res.status(500).json({ error: error.message });
