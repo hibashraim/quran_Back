@@ -48,7 +48,7 @@ router.post('/process-audio', upload.single('audioFile'), async (req, res) => {
         const quranText = req.body.quarntext;
         const comparisonResult = await compareTexts(userText,quranText);
 
-        res.json({ original_text: userText, comparison_result: comparisonResult });
+        res.json({ original_text: quranText, comparison_result: comparisonResult });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
